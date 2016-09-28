@@ -17,5 +17,31 @@ angular.module('chatroom').controller('mainCtrl', function($scope, messageServic
 
   //uncomment this code when your getMessages function is finished
   //This goes and gets new data every second, which mimicking a chat room experience.
+  $scope.getMessages = function() {
+    messageService.getMessages().then(function(response){
+      console.log(response.data)
+      for (var i = 0; i < response.data.length; i++) {
+        response.data[i].timestamp = new Date();
+      }
+      $scope.messages = response.data;
+    });
+  }
+
+    $scope.getMessages();
+
+
+    $scope.postMessage = function(message) {
+      messageService.postMessage(message).then(function(response){
+        return message;
+      })
+    }
+    setInterval(function(){
+   $scope.getMessages();
+ }, 1500)
+
+
+
+
+
 
 })
